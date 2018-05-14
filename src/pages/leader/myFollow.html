@@ -33,91 +33,194 @@
   </style>
 </head>
 <body>
-  <div id="app">
+  <div id="app" >
     <div class="follow-head">
       搜索内容：
       <p class="search-container">
         <el-input clearable v-model="searchTxt"></el-input>
       </p>
-      <el-button plain>
+      <el-button plain @click="searchFollow">
         <img src="../../images/edit.png" alt="">
         查询
       </el-button>
-      <el-button plain>
+      <el-button plain @click="exportExl">
         <img src="../../images/edit.png" alt="">
         导出
       </el-button>
-      <el-button plain>
+      <el-button plain @click="unfollow">
         <img src="../../images/edit.png" alt="">
         取消关注
       </el-button>
     </div>
-    <el-table
-      :data="tableData"
-      stripe border
-      style="width: 100%">
-      <el-table-column  type="selection" width="58"></el-table-column>
-      <el-table-column fixed  label="序号" type="index" width="55"></el-table-column>
-      <el-table-column fixed  label="案件进度" width="118">
-          <template  slot-scope="scope">
-              <el-progress :percentage="scope.row.taskschedule"></el-progress>
+    <div v-loading="loading">
+      <el-table
+        @selection-change="handleSelectionChange"
+        :data="tableData"
+        stripe border
+        style="width: 100%">
+        <el-table-column  type="selection" width="58"></el-table-column>
+        <el-table-column fixed  label="序号" type="index" width="55"></el-table-column>
+        <el-table-column fixed  label="案件进度" width="118">
+            <template  slot-scope="scope">
+                <el-progress :percentage="scope.row.taskschedule"></el-progress>
+            </template>
+        </el-table-column>
+        <el-table-column fixed  label="催办次数" width="85">
+          <template slot-scope="scope">
+            <el-badge :value="scope.row.remindersum" :class="scope.row.sup_bac" ></el-badge>
           </template>
-      </el-table-column>
-      <el-table-column fixed  label="催办次数" width="85">
-        <template slot-scope="scope">
-          <el-badge :value="scope.row.remindersum" :class="scope.row.sup_bac" ></el-badge>
-        </template>
-      </el-table-column>
-      <el-table-column fixed  prop="casenumber" label="案件编号" width="180"></el-table-column>
-      <el-table-column prop="casetype" label="案件类型" width="88" show-overflow-tooltip></el-table-column>
-      <el-table-column prop="casenaturename" label="案件性质" width="156"></el-table-column>
-      <el-table-column prop="casename" label="案件名称" width="152"></el-table-column>
-      <el-table-column prop="statenames" label="案件状态" width="167"></el-table-column>
-      <el-table-column prop="_userNAME_auditdirector" label="主办民警" width="145"></el-table-column>
-      <el-table-column prop="ishandovername" label="是否交案" width="150"></el-table-column>
-      <el-table-column prop="bjsj" label="报警时间" width="200"></el-table-column>
-      <el-table-column prop="processState" label="办理状态" width="200"></el-table-column>
-      <el-table-column fixed="right"  label="操作" >
-        <template slot-scope="scope">
-          <el-button type="text">查看更多</el-button>
-        </template>
-      </el-table-column>
-    </el-table>
-    <el-pagination
-      background
-      layout="prev, pager, next"
-      :total="1000">
-    </el-pagination>
+        </el-table-column>
+        <el-table-column fixed  prop="casenumber" label="案件编号" width="180"></el-table-column>
+        <el-table-column prop="casetype" label="案件类型" width="88" show-overflow-tooltip></el-table-column>
+        <el-table-column prop="casenaturename" label="案件性质" width="156"></el-table-column>
+        <el-table-column prop="casename" label="案件名称" width="152"></el-table-column>
+        <el-table-column prop="statenames" label="案件状态" width="167"></el-table-column>
+        <el-table-column prop="_userNAME_auditdirector" label="主办民警" width="145"></el-table-column>
+        <el-table-column prop="ishandovername" label="是否交案" width="150"></el-table-column>
+        <el-table-column prop="bjsj" label="报警时间" width="200"></el-table-column>
+        <el-table-column prop="processState" label="办理状态" width="200"></el-table-column>
+        <el-table-column fixed="right"  label="操作" >
+          <template slot-scope="scope">
+            <el-button type="text">查看更多</el-button>
+          </template>
+        </el-table-column>
+      </el-table>
+      <el-pagination
+        @current-change="handleCurrentChange"
+        :pager-count="5"
+        prev-text="上一页"
+        next-text="下一页"
+        background
+        layout="prev, pager, next"
+        :total="1000">
+      </el-pagination>
+    </div>
   </div>
 </body>
 <script src="../../js/vue.js"></script>
 <script src="../../js/element-ui.index.js"></script>
+<script src="../../js/axios.min.js"></script>
 <script src="../../js/xlsx.full.min.js"></script>
 <script>
-
   let arr = []
   for (let index = 0; index < 10; index++) {
     arr.push({
-      taskschedule: '7.123',
-      remindersum: '4',
-      casenumber: 'A111111111122222',
-      casetype: '行政案件',
-      casenaturename: '妨碍佐证案',
-      casename: 'adadfadf',
-      statenames: '已受理未结',
-      _userNAME_auditdirector: '陈阿三',
-      ishandovername: '未交案',
-      bjsj: '2018-03-06 19:31:36',
-      processState: '侦办中'
+      taskschedule: 0,
+      remindersum: 0,
+      casenumber: '',
+      casetype: '',
+      casenaturename: '',
+      casename: '',
+      statenames: '',
+      _userNAME_auditdirector: '',
+      ishandovername: '',
+      bjsj: '',
+      processState: ''
     })
   }
-
 
   new Vue({
     el:'#app',
     data: {
       searchTxt: '',
-      tableData: arr
+      tableData: arr,
+      loading: true,
+      multipleSelection: []
+    },
+    created () {
+      this.getLists()
+    },
+    methods: {
+      getLists() {
+        setTimeout(()=> {
+          let arr = []
+          for (let index = 0; index < 10; index++) {
+            arr.push({
+              taskschedule: '' + Math.random()*100,
+              remindersum: '' + Math.random()*10,
+              casenumber: 'A111111111122222',
+              casetype: '行政案件',
+              casenaturename: '妨碍佐证案',
+              casename: 'adadfadf',
+              statenames: '已受理未结',
+              _userNAME_auditdirector: '陈阿三',
+              ishandovername: '未交案',
+              bjsj: '2018-03-06 19:31:36',
+              processState: '侦办中'
+            })
+          }
+          // 优化处理数据
+          arr.forEach(item => {
+            let curtTaskschedule = item.taskschedule
+            let curRemindersum = item.remindersum
+            // 案件进度处理，后台返回的是字符串且没有做位数处理
+            if(curtTaskschedule) {
+                if(curtTaskschedule.indexOf('.') > -1) {
+                    // item.taskschedule = parseFloat(parseFloat(cur).toFixed(2))
+                    item.taskschedule = parseInt(curtTaskschedule)
+                }
+            }else {
+                item.taskschedule = 0
+            }
+            // 催办次数，字符串转化为整型
+            item.remindersum = curRemindersum ? parseInt(curRemindersum) : 0
+            // 处理催办次数的背景色 <1 3  1-3  2  >3 1
+            let rS = item.remindersum
+            if (rS < 1) {
+                item['sup_bac'] = 'sup_bac3'
+            } else if (rS < 4) {
+                item['sup_bac'] = 'sup_bac2'
+            } else {
+                item['sup_bac'] = 'sup_bac1'
+            }
+        })
+          this.tableData = arr
+          this.loading = false
+        }, 1000)
+      },
+      searchFollow () {
+        console.log('搜索')
+      },
+      exportExl () {
+        if (!this.multipleSelection.length) {
+          this.$message({
+            type: 'error',
+            message: '请选择案件',
+            duration: 1000
+          })
+          return
+        }
+        let arr = []
+        this.multipleSelection.forEach((item,index) => {
+          arr.push({
+            '序号': index + 1,
+            '案件进度': item.taskschedule,
+            '催办次数': item.remindersum,
+            '案件编号': item.casenumber,
+            '案件类型': item.casetype,
+            '案件性质': item.casenaturename,
+            '案件名称': item.casename,
+            '案件状态': item.statenames,
+            '主办民警': item._userNAME_auditdirector,
+            '是否交案': item.ishandovername,
+            '报警时间': item.bjsj,
+            '办理状态': item.processState
+          })
+        })
+        let worksheet = XLSX.utils.json_to_sheet(arr)
+        let new_workbook = XLSX.utils.book_new()
+        XLSX.utils.book_append_sheet(new_workbook, worksheet, "我的案件")
+        return XLSX.writeFile(new_workbook, new Date().getTime()+'.xlsx')
+      },
+      unfollow () {
+        console.log('取消关注')
+      },
+      handleSelectionChange(val) {
+        this.multipleSelection = val
+      },
+      handleCurrentChange(val) {
+        console.log(`当前页: ${val}`);
+      }
     }
   })
 </script>

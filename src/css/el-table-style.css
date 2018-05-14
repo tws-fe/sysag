@@ -1,3 +1,4 @@
+/* 表单整体格式 */
 .el-table td, .el-table th.is-leaf {
   /* border: 1px solid #e3e3e3; */
   text-align: center;
@@ -12,4 +13,27 @@
 }
 .el-table th>.cell {
   font-size:16px !important;
+}
+
+/* 催办次数背景色处理  */
+.sup_bac1 sup{
+  background:#ff4646
+}
+.sup_bac2 sup{
+  background: #ffaa46;
+}
+.sup_bac3 sup{
+  background: #1b85ca;
+}
+
+
+
+/* 按钮优化 */
+.el-pagination.is-background .btn-prev, 
+.el-pagination.is-background .btn-next {
+  min-width: 68px;
+}
+
+.el-pagination.is-background .el-pager li {
+  margin: 0 1px;
 }
