@@ -1,0 +1,15 @@
+{
+  "name": "sysag",
+  "version": "1.0.0",
+  "scripts" : {
+    "watch" : "node reload.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@git.coding.net:tonyzj/sysag.git"
+  },
+  "author": "tony",
+  "devDependencies": {
+    "browser-sync": "^2.24.4"
+  }
+}
