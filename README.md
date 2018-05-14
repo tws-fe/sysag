@@ -2,6 +2,9 @@
 
 # 项目构建
 ```
+# 安装项目依赖包
+cnpm install
+
 # 启动自动刷新
 cnpm run watch
 ```
