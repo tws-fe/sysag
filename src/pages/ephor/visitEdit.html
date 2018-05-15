@@ -63,18 +63,26 @@
             <!-- 案件信息 -->
             <fieldset class="visit-section">
               <legend>案件信息</legend>
-              <el-form-item label="案件编号" prop="region">
-                  <el-autocomplete
-                    ref="caseNo"
-                    v-model="state1"
-                    :fetch-suggestions="querySearch"
-                    placeholder="请输入内容"
-                    @select="handleSelect">
-                    <i class="el-icon-arrow-down el-input__icon" slot="suffix" @click="handleIconClick"></i>
-                  </el-autocomplete>
-              </el-form-item>
-              <el-form-item label="案情简介" prop="desc">
-                <el-input type="textarea" v-model="ruleForm.desc"></el-input>
+              <el-row>
+                <el-col :span="10">
+                  <el-form-item label="案件编号" prop="casenum">
+                      <el-autocomplete 
+                        ref="casenum"
+                        v-model="ruleForm.casenum"
+                        :fetch-suggestions="querySearch"
+                        placeholder="请输入内容"
+                        @select="handleSelect">
+                        <i class="el-icon-arrow-down el-input__icon" slot="suffix" @click="handleIconClick"></i>
+                        <template slot-scope="{ item }">
+                          <div class="name">{{ item.value }}</div>
+                        </template>
+                      </el-autocomplete>
+                  </el-form-item>
+                </el-col>
+
+              </el-row>
+              <el-form-item label="案情简介" prop="caseinfo">
+                <el-input type="textarea" ref="caseinfo" v-model="ruleForm.caseinfo" :disabled="caseIsSelect"></el-input>
               </el-form-item>
             </fieldset>
             <!-- 来访人员信息 -->
@@ -83,55 +91,55 @@
                 <el-row >
                   <el-col :span="6">
                     <el-form-item  label="姓名" prop="name">
-                        <el-input ></el-input>
+                        <el-input v-model="ruleForm.name"></el-input>
                     </el-form-item>
                   </el-col>
                   <el-col :span="6" :offset="2">
-                    <el-form-item  label="身份证号码">
-                        <el-input ></el-input>
+                    <el-form-item  label="身份证号码" prop="idcardnum">
+                        <el-input v-model="ruleForm.idcardnum"></el-input>
                     </el-form-item>
                   </el-col>
                   <el-col :span="6" :offset="2">
-                    <el-form-item prop="date1" label="来访时间">
-                      <el-date-picker type="datetime" placeholder="选择日期" 
-                        v-model="ruleForm.date1" style="width: 100%;"
+                    <el-form-item prop="visittime" label="来访时间">
+                      <el-date-picker type="datetime" placeholder="选择时间" 
+                        v-model="ruleForm.visittime" style="width: 100%;"
                         default-time="12:00:00"></el-date-picker>
                     </el-form-item>
                   </el-col>
                 </el-row>
                 <el-row >
                   <el-col :span="6">
-                    <el-form-item label="性别" prop="resource">
-                      <el-radio-group v-model="ruleForm.resource">
+                    <el-form-item label="性别" prop="sex">
+                      <el-radio-group v-model="ruleForm.sex">
                         <el-radio label="男性"></el-radio>
                         <el-radio label="女性"></el-radio>
                       </el-radio-group>
                     </el-form-item>
                   </el-col>
                   <el-col :span="6" :offset="2">
-                    <el-form-item  label="联系电话">
-                        <el-input ></el-input>
+                    <el-form-item  label="联系电话"  prop="telnum">
+                        <el-input v-model="ruleForm.telnum"></el-input>
                     </el-form-item>
                   </el-col>
                 </el-row>
                 <el-row>
                   <el-col :span="14">
-                    <el-form-item label="工作单位" prop="name">
-                      <el-input v-model="ruleForm.name"></el-input>
+                    <el-form-item label="工作单位" >
+                      <el-input v-model="ruleForm.workunit"></el-input>
                     </el-form-item>
                   </el-col>
                 </el-row>
                 <el-row>
                   <el-col :span="14">
-                    <el-form-item label="居住地址" prop="name">
-                      <el-input v-model="ruleForm.name"></el-input>
+                    <el-form-item label="居住地址" >
+                      <el-input v-model="ruleForm.address"></el-input>
                     </el-form-item>
                   </el-col>
                 </el-row>
                 <el-row>
                   <el-col>
-                    <el-form-item label="来访事由" prop="name">
-                      <el-input type="textarea" v-model="ruleForm.name"></el-input>
+                    <el-form-item label="来访事由" prop="visitfor">
+                      <el-input type="textarea" v-model="ruleForm.visitfor"></el-input>
                     </el-form-item>
                   </el-col>
                 </el-row>
@@ -139,7 +147,7 @@
             <!-- 历史来访信息 -->
             <fieldset class="visit-section">
               <legend>历史来访信息</legend>
-              <el-table stripe border size="small" :data="tableData" style="width: 96%">
+              <el-table stripe border size="small" :data="tableData" style="width: 100%">
                 <el-table-column prop="date" label="来访人姓名" width="180" align="center"></el-table-column>
                 <el-table-column prop="name" label="联系电话" width="180" align="center"></el-table-column>
                 <el-table-column prop="name" label="来访事由" width="180" align="center"></el-table-column>
@@ -152,32 +160,32 @@
               <legend>接访信息</legend>
               <el-row >
                 <el-col :span="6">
-                  <el-form-item  label="接访民警" prop="name">
-                      <el-input ></el-input>
+                  <el-form-item  label="接访民警" prop="receivecop">
+                      <el-input v-model="ruleForm.receivecop"></el-input>
                   </el-form-item>
                 </el-col>
                 <el-col :span="6" :offset="2">
-                  <el-form-item  label="主办民警">
-                      <el-input ></el-input>
+                  <el-form-item  label="主办民警" prop="auditdirectorname">
+                      <el-input v-model="ruleForm.auditdirectorname"></el-input>
                   </el-form-item>
                 </el-col>
               </el-row>
               <el-row>
                 <el-col>
-                  <el-form-item label="前台答复" prop="name">
-                    <el-input type="textarea" v-model="ruleForm.name"></el-input>
+                  <el-form-item label="前台答复" >
+                    <el-input type="textarea" v-model="ruleForm.receivereply"></el-input>
                   </el-form-item>
                 </el-col>
               </el-row>
               <el-row>
                 <el-col>
-                  <el-form-item label="答复内容" prop="name">
-                    <el-input type="textarea" v-model="ruleForm.name"></el-input>
+                  <el-form-item label="答复内容" >
+                    <el-input type="textarea" v-model="ruleForm.reply"></el-input>
                   </el-form-item>
                 </el-col>
               </el-row>
-              <el-form-item label="接访内容" prop="resource">
-                <el-radio-group v-model="ruleForm.resource">
+              <el-form-item label="接访结果" prop="result">
+                <el-radio-group v-model="ruleForm.result">
                   <el-radio label="需跟进"></el-radio>
                   <el-radio label="已解决"></el-radio>
                 </el-radio-group>
@@ -188,7 +196,7 @@
     </el-tabs>
     <div class="visit-submit">
       <el-button type="primary" @click="submitForm('ruleForm')">保存</el-button>
-      <el-button type="primary" @click="resetForm('ruleForm')">发送短息</el-button>
+      <el-button type="primary" @click="resetForm('ruleForm')">发送短信</el-button>
       <el-button type="warning" @click="resetForm('ruleForm')">关闭</el-button>
     </div>
 
@@ -203,54 +211,49 @@
 
   new Vue({
     el: '#app',
-    data() {
-      return {
-        restaurants: [],
-        state1: '',
-        tableData: [{
-            date: '2016-05-02',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1518 弄'
-          }, {
-            date: '2016-05-04',
-            name: '王小虎',
-            address: '上海市普陀区金沙江路 1517 弄'
-          }],
-        ruleForm: {
-          name: '',
-          region: '',
-          date1: '',
-          date2: '',
-          delivery: false,
-          type: [],
-          resource: '',
-          desc: ''
-        },
-        rules: {
-          name: [
-            { required: true, message: '请输入活动名称', trigger: 'blur' },
-            { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-          ],
-          region: [
-            { required: true, message: '请选择活动区域', trigger: 'change' }
-          ],
-          date1: [
-            { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
-          ],
-          date2: [
-            { type: 'date', required: true, message: '请选择时间', trigger: 'change' }
-          ],
-          type: [
-            { type: 'array', required: true, message: '请至少选择一个活动性质', trigger: 'change' }
-          ],
-          resource: [
-            { required: true, message: '请选择活动资源', trigger: 'change' }
-          ],
-          desc: [
-            { required: true, message: '请填写活动形式', trigger: 'blur' }
-          ]
-        }
-      };
+    data: {
+      restaurants: [], //案件编号下拉列表
+      caseIsSelect: false, //案件详情是否是选择的
+      state1: '',
+      tableData: [{
+          date: '2016-05-02',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1518 弄'
+        }, {
+          date: '2016-05-04',
+          name: '王小虎',
+          address: '上海市普陀区金沙江路 1517 弄'
+        }],
+      ruleForm: {
+        casenum: '', //案件编号
+        caseinfo: '', //案情简介
+        name: '', 
+        idcardnum: '', //身份证
+        visittime: '',
+        sex: '', //性别
+        telnum: '',
+        workunit: '',
+        address: '',
+        visitfor: '', //来访事由
+        receivecop: '', //接访民警
+        auditdirectorname: '', //主办民警
+        receivereply: '', //前台答复
+        reply: '', //答复内容
+        result: '' // 访问结果
+      },
+      rules: {
+        casenum: [{required: true, message: '请选择或填写案件编号', trigger: 'change'}],
+        caseinfo: [{ required: true, message: '请填写案情简介', trigger: 'blur' }],
+        name: [ { required: true, message: '请输入姓名', trigger: 'blur' }],
+        idcardnum: [{ required: true, message: '请输入身份证号码', trigger: 'blur' }],
+        visittime: [{ required: true, message: '请选择来访时间', trigger: 'change' }],
+        sex: [{ required: true, message: '请选择性别', trigger: 'change' }],
+        telnum: [{ required: true, message: '请输入联系电话', trigger: 'blur' }],
+        visitfor: [{ required: true, message: '请填写来访事由', trigger: 'blur' }],
+        receivecop: [{ required: true, message: '请填写接访民警', trigger: 'blur' }],
+        auditdirectorname: [{ required: true, message: '请填写主办民警', trigger: 'blur' }],
+        result: [{ required: true, message: '请选择访问结果', trigger: 'change' }]
+      }
     },
     created() {
       this.getCaseList()
@@ -264,6 +267,11 @@
           })
         },1000)
       },
+      createFilter(queryString) {
+        return (restaurant) => {
+          return (restaurant.value.toLowerCase().indexOf(queryString.toLowerCase()) === 0);
+        };
+      },
       querySearch(queryString, cb) {
         var restaurants = this.restaurants;
         var results = queryString ? restaurants.filter(this.createFilter(queryString)) : restaurants;
@@ -271,11 +279,12 @@
         cb(results);
       },
       handleIconClick () {
-        // 注意这里的caseNo不是原生DOM而是一个vue组件，没有click事件
-        this.$refs['caseNo'].focus()
+        // 注意这里的casenum不是原生DOM而是一个vue组件，没有click事件
+        this.$refs['casenum'].focus()
       },
       handleSelect(item) {
         console.log(item);
+        this.ruleForm.casenum = item.value
       },
       submitForm(formName) {
         this.$refs[formName].validate((valid) => {
@@ -289,6 +298,19 @@
       },
       resetForm(formName) {
         this.$refs[formName].resetFields();
+      }
+    },
+    watch: {
+      // 根据案件编号来判断是在列表中选择的还是填写的
+      'ruleForm.casenum': function(val) {
+        let index = this.restaurants.findIndex(item => {
+          return item.value === val
+        })
+        if (index > -1) {
+          this.ruleForm.caseinfo = this.restaurants[index].address
+          this.$refs['caseinfo'].blur()
+        }
+        this.caseIsSelect = index > -1
       }
     }
   })
