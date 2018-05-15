@@ -148,11 +148,11 @@
             <fieldset class="visit-section">
               <legend>历史来访信息</legend>
               <el-table stripe border size="small" :data="tableData" style="width: 100%">
-                <el-table-column prop="date" label="来访人姓名" width="180" align="center"></el-table-column>
-                <el-table-column prop="name" label="联系电话" width="180" align="center"></el-table-column>
-                <el-table-column prop="name" label="来访事由" width="180" align="center"></el-table-column>
-                <el-table-column prop="name" label="来访时间" width="180" align="center"></el-table-column>
-                <el-table-column prop="address" label="答复内容" align="center"></el-table-column>
+                <el-table-column prop="name" label="来访人姓名" width="180" align="center"></el-table-column>
+                <el-table-column prop="telnum" label="联系电话" width="180" align="center"></el-table-column>
+                <el-table-column prop="visitfor" label="来访事由" width="180" align="center"></el-table-column>
+                <el-table-column prop="visittime" label="来访时间" width="180" align="center"></el-table-column>
+                <el-table-column prop="reply" label="答复内容" align="center"></el-table-column>
               </el-table>
             </fieldset>
             <!-- 接访信息 -->
@@ -216,13 +216,17 @@
       caseIsSelect: false, //案件详情是否是选择的
       state1: '',
       tableData: [{
-          date: '2016-05-02',
           name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-04',
+          telnum: '13112345678',
+          visitfor: '上海市普陀区金沙江路 1518 弄',
+          visittime: '2018-03-08',
+          reply: '上海市普陀区金沙江路 1518'
+        },{
           name: '王小虎',
-          address: '上海市普陀区金沙江路 1517 弄'
+          telnum: '13112345678',
+          visitfor: '上海市普陀区金沙江路 1518 弄',
+          visittime: '2018-03-08',
+          reply: '上海市普陀区金沙江路 1518'
         }],
       ruleForm: {
         casenum: '', //案件编号
@@ -248,7 +252,9 @@
         idcardnum: [{ required: true, message: '请输入身份证号码', trigger: 'blur' }],
         visittime: [{ required: true, message: '请选择来访时间', trigger: 'change' }],
         sex: [{ required: true, message: '请选择性别', trigger: 'change' }],
-        telnum: [{ required: true, message: '请输入联系电话', trigger: 'blur' }],
+        telnum: [
+          { required: true, message: '请输入联系电话', trigger: 'blur' }
+        ],
         visitfor: [{ required: true, message: '请填写来访事由', trigger: 'blur' }],
         receivecop: [{ required: true, message: '请填写接访民警', trigger: 'blur' }],
         auditdirectorname: [{ required: true, message: '请填写主办民警', trigger: 'blur' }],
