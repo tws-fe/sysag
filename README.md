@@ -20,6 +20,8 @@ cnpm run watch
 + caseControl.html 案件监管
 + myFollow.html 我的关注
 + cases.html 我的案件
-+ visitEdit.html 来访登记
++ caseDetails.html 案件详情
++ visitList.html 来访登记列表
++ visitEdit.html 来访登记编辑
 + caseMyVisit.html 我的来访
 + caseConfirmList.html 案件确认列表
