@@ -1,11 +1,11 @@
-/* 表单整体格式 */
+/* 表格整体格式 */
 .el-table td, .el-table th.is-leaf {
   /* border: 1px solid #e3e3e3; */
   text-align: center;
 }
-.el-table td{
+/* .el-table td{
   padding: 0;
-}
+} */
 .el-table th {
   background-color: #f7f8f9 !important;
   color: #5e5e5e;
@@ -14,6 +14,13 @@
 .el-table th>.cell {
   font-size:16px !important;
 }
+
+
+/* 表格内的按钮优化 */
+.el-table__row .el-button {
+  padding: 0;
+}
+
 
 /* 催办次数背景色处理  */
 .sup_bac1 sup{
@@ -27,8 +34,7 @@
 }
 
 
-
-/* 按钮优化 */
+/* 分页优化 */
 .el-pagination.is-background .btn-prev, 
 .el-pagination.is-background .btn-next {
   min-width: 68px;
