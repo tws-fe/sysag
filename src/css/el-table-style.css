@@ -77,3 +77,16 @@
   left: 20px;
   transform: translateY(-50%);
 }
+
+/* 弹框操作优化 */
+/* dialog */
+.el-dialog__header {
+  background-color: #2983b3;
+}
+.el-dialog__title {
+  color: #fff;
+}
+.dialog-footer {
+  display: flex;
+  justify-content: center;
+}
