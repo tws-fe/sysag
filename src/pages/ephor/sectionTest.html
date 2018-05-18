@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link rel="stylesheet" href="../../css/element-ui.index.css">
+  <style>
+   
+  </style>
+</head>
+<body>
+  <div id="app">
+      <el-row>
+        <el-col :span="6" class="test">
+          <el-select v-model="value8" filterable placeholder="请选择">
+            <el-option
+              v-for="item in options"
+              :key="item.casenumber"
+              :label="item.casenumber+item.casename"
+              :value="item.casenumber">
+            </el-option>
+          </el-select>
+        </el-col>
+      </el-row>
+
+  </div>
+</body>
+<script src="../../js/vue.js"></script>
+<script src="../../js/element-ui.index.js"></script>
+<script>
+  new Vue({
+    el: '#app',
+    data: {
+        input: '',
+        options: [{"casenumber":"A123432222","casename":"(小刘盗窃案)"},{"casenumber":"A440403500000232","casename":"(镇鑫办假证案)"},{"casenumber":"A440403500001031","casename":"(丁三金迷路案)"},{"casenumber":"A440403500001220","casename":"(镇鑫办假证案)"},{"casenumber":"A440403500001221","casename":"(丁三金迷路案)"},{"casenumber":"A440403500001222","casename":"(不知道什么案)"},{"casenumber":"A440403500001230","casename":"(小李抢劫案)"},{"casenumber":"A440403500001231","casename":"(小李嫖娼案)"},{"casenumber":"A440403500001232","casename":"(做梦案)"},{"casenumber":"A440403500001233","casename":"(路上打劫案)"},{"casenumber":"A440403500001234","casename":"(挑唆杀人案)"},{"casenumber":"A440403500001235","casename":"(抢劫未遂案)"},{"casenumber":"A440403500001236","casename":"(强奸未遂案)"},{"casenumber":"A440403500001237","casename":"(聚众闹事案)"},{"casenumber":"A440403500001238","casename":"(朱大昌迷路案)"},{"casenumber":"A440403500001239","casename":"(小余被盗窃案)"},{"casenumber":"A440403500001332","casename":"(镇鑫办假证案)"},{"casenumber":"A440403500001431","casename":"(丁三金迷路案)"},{"casenumber":"A440403500001532","casename":"(镇鑫办假证案)"},{"casenumber":"A440403500001631","casename":"(丁三金迷路案)"},{"casenumber":"A440403500001732","casename":"(镇鑫办假证案)"},{"casenumber":"A440403500001831","casename":"(丁三金迷路案)"},{"casenumber":"A440403500001932","casename":"(镇鑫办假证案)"},{"casenumber":"A440403500002231","casename":"(丁三金迷路案)"},{"casenumber":"A440403500003232","casename":"(镇鑫办假证案)"},{"casenumber":"A440403500004231","casename":"(丁三金迷路案)"},{"casenumber":"A440403500005232","casename":"(镇鑫办假证案)"},{"casenumber":"A440403500006231","casename":"(丁三金迷路案)"},{"casenumber":"A440403500007232","casename":"(镇鑫办假证案)"},{"casenumber":"A440403500008231","casename":"(丁三金迷路案)"},{"casenumber":"A440403500011232","casename":"(镇鑫办假证案)"},{"casenumber":"A440403500021231","casename":"(丁三金迷路案)"},{"casenumber":"A440403500031232","casename":"(镇鑫办假证案)"},{"casenumber":"A440403500041231","casename":"(丁三金迷路案)"},{"casenumber":"A440403500051232","casename":"(镇鑫办假证案)"},{"casenumber":"A440403500061231","casename":"(丁三金迷路案)"},{"casenumber":"A440403500071232","casename":"(镇鑫办假证案)"},{"casenumber":"A440403500081231","casename":"(丁三金迷路案)"},{"casenumber":"A440403500091232","casename":"(镇鑫办假证案)"},{"casenumber":"A440403500101231","casename":"(丁三金迷路案)"}],
+        value8: ''
+    },
+    methods: {
+      handler() {
+        console.log('click')
+        this.$refs['input'].focus()
+      }
+    }
+
+  })
+</script>
+</html>

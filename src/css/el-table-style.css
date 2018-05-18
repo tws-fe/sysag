@@ -43,3 +43,8 @@
 .el-pagination.is-background .el-pager li {
   margin: 0 1px;
 }
+
+/* 无数据 */
+.el-table__empty-block {
+  height: 0;
+}

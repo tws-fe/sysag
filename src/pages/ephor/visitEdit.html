@@ -10,6 +10,7 @@
     .visit-container {
       width: 1280px;
       margin: 0 auto;
+      position: relative;
     }
     .el-tabs {
       background-color: #f5f5f5;
@@ -20,11 +21,18 @@
       border-top-left-radius: 20px;
     }
     .el-tabs__nav-scroll {
-      background-color: #2983b3;
+      /* background-color: #2983b3; */
     }
     .el-tabs--border-card>.el-tabs__header .el-tabs__item.is-active {
-      background-color: #2983b3;      
+      /* background-color: #2983b3;       */
       border: 0;
+      color: #fff;
+    }
+    .visit-btn {
+      position: absolute;
+      z-index: 1;
+    }
+    .visit-btn .el-radio {
       color: #fff;
     }
     .visit-section {
@@ -56,16 +64,20 @@
 </head>
 <body>
   <div id="app" class="visit-container">
+    <div class="visit-btn">
+        <el-radio v-model="radio" label="1">备选项</el-radio>
+        <el-radio v-model="radio" label="2">备选项</el-radio>
+    </div>
     <el-tabs type="border-card">
-      <el-tab-pane label="来访情况登记表">
+      <el-tab-pane label="">
           <el-form size="mini" :model="ruleForm" 
             :rules="rules" ref="ruleForm" label-width="100px" >
             <!-- 案件信息 -->
             <fieldset class="visit-section">
               <legend>案件信息</legend>
               <el-row>
-                <el-col :span="10">
-                  <el-form-item label="案件编号" prop="casenum">
+                <el-col :span="6">
+                  <el-form-item label="案件编号" prop="casenum" >
                       <el-autocomplete 
                         ref="casenum"
                         v-model="ruleForm.casenum"
@@ -184,7 +196,7 @@
                   </el-form-item>
                 </el-col>
               </el-row>
-              <el-form-item label="接访结果" prop="result">
+              <el-form-item label="接访结果" prop="result" >
                 <el-radio-group v-model="ruleForm.result">
                   <el-radio label="需跟进"></el-radio>
                   <el-radio label="已解决"></el-radio>
@@ -212,6 +224,7 @@
   new Vue({
     el: '#app',
     data: {
+      radio: '1',
       restaurants: [], //案件编号下拉列表
       caseIsSelect: false, //案件详情是否是选择的
       state1: '',

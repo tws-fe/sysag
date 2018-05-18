@@ -25,3 +25,8 @@ cnpm run watch
 + visitEdit.html 来访登记编辑
 + caseMyVisit.html 我的来访
 + caseConfirmList.html 案件确认列表
++ xzaj_datum.html 行政案件材料登记
++ other_datum.html 其他案件材料登记
++ online_query.html 在库档案查询
++ ag_seize_res.html 扣押物品列表
++ seize_res_edit.html 扣押物品登记
