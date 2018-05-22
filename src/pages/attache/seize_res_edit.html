@@ -56,6 +56,18 @@
       .el-table__empty-block {
         height: 0;
       }
+
+      /* 可编辑表格的处理 */
+      .tb-edit .el-input {
+          display: none;
+      }
+      .tb-edit .current-row .el-input {
+          display: block;
+      }
+      .tb-edit .current-row .el-input+span {
+          display: none;
+      }
+
     </style>
 </head>
 <body>
@@ -127,15 +139,37 @@
                 <fieldset class="visit-section">
                   <legend>办案任务</legend>
                   <el-button type="primary" @click="resetForm('ruleForm')">新 增</el-button>
-                  <el-table stripe border size="small" :data="tableData" style="width: 100%">
-                      <el-table-column type="selection" label="选择" width="58"></el-table-column>
+                  <el-button type="primary" @click="resetForm('ruleForm')">删 除</el-button>
+                  <el-table stripe border size="small" :data="tableData" style="width: 100%" class="tb-edit" highlight-current-row>
+                    <el-table-column type="selection" label="选择" width="58"></el-table-column>
                     <el-table-column prop="name" label="编号" width="180" align="center"></el-table-column>
-                    <el-table-column prop="telnum" label="物品名称" width="180" align="center"></el-table-column>
-                    <el-table-column prop="visitfor" label="数量" width="180" align="center"></el-table-column>
-                    <el-table-column prop="visittime" label="特征" width="180" align="center"></el-table-column>
-                    <el-table-column prop="reply" label="备注" align="center"></el-table-column>
+                    <el-table-column  label="物品名称" width="180" align="center">
+                      <template slot-scope="scope">
+                        <el-input size="small" v-model="scope.row.telnum" @change="handleEdit(scope.$index, scope.row)"></el-input>
+                        <span>{{scope.row.telnum}}</span> 
+                      </template>
+                    </el-table-column>
+                    <el-table-column prop="visitfor" label="数量" width="180" align="center">
+                        <template slot-scope="scope">
+                          <el-input size="small" v-model="scope.row.visitfor" @change="handleEdit(scope.$index, scope.row)"></el-input>
+                          <span>{{scope.row.visitfor}}</span> 
+                        </template>
+                    </el-table-column>
+                    <el-table-column prop="visittime" label="特征" width="180" align="center">
+                        <template slot-scope="scope">
+                            <el-input size="small" v-model="scope.row.visittime" @change="handleEdit(scope.$index, scope.row)"></el-input>
+                            <span>{{scope.row.visittime}}</span> 
+                          </template>
+                    </el-table-column>
+                    <el-table-column prop="reply" label="备注" align="center">
+                        <template slot-scope="scope">
+                            <el-input size="small" v-model="scope.row.reply" @change="handleEdit(scope.$index, scope.row)"></el-input>
+                            <span>{{scope.row.reply}}</span> 
+                          </template>
+                    </el-table-column>
                     <el-table-column fixed="right" label="删除" min-width="120">
                         <template slot-scope="scope">
+                          <!-- <el-button type="text" @click="remove(scope.row.uuid)">编辑</el-button> -->
                           <el-button type="text" @click="remove(scope.row.uuid)">删除</el-button>
                         </template>
                       </el-table-column>
@@ -202,7 +236,9 @@
 
     },
     methods: {
-     
+      handleEdit(index, row) {
+        console.log(index, row);
+      },
     },
     watch: {
     
