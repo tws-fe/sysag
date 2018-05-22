@@ -142,7 +142,12 @@
                   <el-button type="primary" @click="resetForm('ruleForm')">删 除</el-button>
                   <el-table stripe border size="small" :data="tableData" style="width: 100%" class="tb-edit" highlight-current-row>
                     <el-table-column type="selection" label="选择" width="58"></el-table-column>
-                    <el-table-column prop="name" label="编号" width="180" align="center"></el-table-column>
+                    <el-table-column prop="name" label="编号" width="180" align="center">
+                        <template slot-scope="scope">
+                            <el-input size="small" v-model="scope.row.name" @change="handleEdit(scope.$index, scope.row)"></el-input>
+                            <span>{{scope.row.name}}</span> 
+                          </template>
+                    </el-table-column>
                     <el-table-column  label="物品名称" width="180" align="center">
                       <template slot-scope="scope">
                         <el-input size="small" v-model="scope.row.telnum" @change="handleEdit(scope.$index, scope.row)"></el-input>

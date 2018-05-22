@@ -35,6 +35,7 @@
     /* .visit-title {
       padding: 10px 0;
     } */
+
     .visit-list {
       margin-top: 10px;
     }
@@ -61,6 +62,7 @@
     .list-number {
       margin-left: 20px;
     }
+
     #chart {
       height: 380px;
       transform: translateY(-60px);
@@ -177,10 +179,27 @@
       initData() {
         var myChart = echarts.init(document.getElementById('chart'))
         let option = {
-          // title: {
-          //   text: '当月案件统计',
-          //   x: 'left'
-          // },
+          title: {
+            text: '{a|40}{b| -件}\n{c|当月案件}',
+            x: 'center',
+            y: 'center',
+            textStyle: {
+              rich: {
+                a: {
+                  fontSize: 40,
+                  fontWeight: 600,
+                  color: '#888'
+                },
+                b: {
+                  fontSize: 16,
+                },
+                c: {
+                  fontSize: 14,
+                  lineHeight: 20
+                },
+              }
+            }
+          },
           color: ['#5694c2', '#fecb45', '#f15d5d'],
           tooltip: {
             trigger: 'item',
@@ -197,10 +216,25 @@
               type: 'pie',
               radius: '55%',
               // center: ['50%', '60%'],
+              radius: ['40%', '70%'],
               data: [
-                { value: 335, name: '未审核' },
-                { value: 310, name: '已审核' },
-                { value: 234, name: '待处理' }
+                { value: 335, name: '未审核',
+                  label: {
+                    normal: {
+                      formatter: '{c}'
+                    }
+                  }
+                },
+                { value: 310, name: '已审核', label: {
+                    normal: {
+                      formatter: '{c}'
+                    }
+                  } },
+                { value: 234, name: '待处理',label: {
+                    normal: {
+                      formatter: '{c}'
+                    }
+                  } }
               ],
             }
           ]
